@@ -124,5 +124,63 @@
 		</dependency>
 
 	</dependencies>
-
+<build>
+		<resources><!-- 使用@@站位符，输出Dockerfile至docker文件夹 -->
+			<resource>
+				<directory>src/main/docker</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/Dockerfile</include>
+				</includes>
+				<targetPath>${project.build.directory}</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.13</version>
+				<configuration>
+					<imageName>${docker.registry}/${docker.registry.namespace}/${project.artifactId}:${project.version}</imageName>
+					<dockerDirectory>${project.build.directory}</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>*.war</include>
+						</resource>
+						<resource>
+							<directory>${project.build.directory}</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>Dockerfile</include>
+							</includes>
+						</resource>
+					</resources>
+					<pushImage>true</pushImage>
+					<serverId>docker-hub</serverId>
+					<registryUrl>${docker.registry}</registryUrl>
+					<skipDocker>false</skipDocker>
+				</configuration>
+				</plugin>
+		</plugins>
+	</build>
 </project>
