@@ -175,9 +175,13 @@
 							</includes>
 						</resource>
 					</resources>
-					<pushImage>true</pushImage>
+					<forceTags>true</forceTags>
+					<pushImageTag>true</pushImageTag>
 					<serverId>docker-hub</serverId>
 					<registryUrl>${docker.registry}</registryUrl>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+					</imageTags>
 					<skipDocker>false</skipDocker>
 				</configuration>
 				</plugin>
