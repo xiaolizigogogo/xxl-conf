@@ -127,7 +127,7 @@
 <build>
 		<resources><!-- 使用@@站位符，输出Dockerfile至docker文件夹 -->
 			<resource>
-				<directory>src/main/docker</directory>
+				<directory>src/main/resouces/docker</directory>
 				<filtering>true</filtering>
 				<includes>
 					<include>**/Dockerfile</include>
